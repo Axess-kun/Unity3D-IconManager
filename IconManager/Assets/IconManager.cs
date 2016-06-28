@@ -79,3 +79,14 @@ public class IconManager {
         return guiContentArray;
     }
 }
+
+public static class IconManagerExtension {
+
+    public static void SetIcon( this GameObject gObj, IconManager.LabelIcon icon ) {
+        IconManager.SetIcon( gObj, icon );
+    }
+
+    public static void SetIcon( this GameObject gObj, IconManager.Icon icon ) {
+        IconManager.SetIcon( gObj, icon );
+    }
+}
