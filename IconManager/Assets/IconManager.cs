@@ -63,12 +63,18 @@ public class IconManager {
     private static GUIContent[] GetTextures( string baseName, string postFix, int startIndex, int count ) {
         GUIContent[] guiContentArray = new GUIContent[count];
 
+#if UNITY_5_3_OR_NEWER
+        for ( int index = 0; index < count; index++ ) {
+            guiContentArray[index] = EditorGUIUtility.IconContent( baseName + ( startIndex + index ) + postFix );
+        }
+#else
         var t = typeof( EditorGUIUtility );
         var mi = t.GetMethod( "IconContent", BindingFlags.NonPublic | BindingFlags.Static, null, new Type[] { typeof( string ) }, null );
 
         for ( int index = 0; index < count; ++index ) {
             guiContentArray[index] = mi.Invoke( null, new object[] { baseName + (object)( startIndex + index ) + postFix } ) as GUIContent;
         }
+#endif
 
         return guiContentArray;
     }
