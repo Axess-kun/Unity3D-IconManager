@@ -45,7 +45,10 @@ public class IconManager {
             labelIcons = GetTextures( "sv_label_", string.Empty, 0, 8 );
         }
 
-        SetIcon( gObj, labelIcons[(int)icon].image as Texture2D );
+        if ( icon == LabelIcon.None )
+            RemoveIcon( gObj );
+        else
+            SetIcon( gObj, labelIcons[(int)icon].image as Texture2D );
     }
 
     public static void SetIcon( GameObject gObj, Icon icon ) {
@@ -53,7 +56,10 @@ public class IconManager {
             largeIcons = GetTextures( "sv_icon_dot", "_pix16_gizmo", 0, 16 );
         }
 
-        SetIcon( gObj, largeIcons[(int)icon].image as Texture2D );
+        if ( icon == Icon.None )
+            RemoveIcon( gObj );
+        else
+            SetIcon( gObj, largeIcons[(int)icon].image as Texture2D );
     }
 
     public static void RemoveIcon( GameObject gObj ) {
