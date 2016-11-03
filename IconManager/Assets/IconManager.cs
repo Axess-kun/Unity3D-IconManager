@@ -6,7 +6,8 @@ using UnityEngine;
 public class IconManager {
 
     public enum LabelIcon {
-        Gray = 0,
+        None = -1,
+        Gray,
         Blue,
         Teal,
         Green,
@@ -17,7 +18,8 @@ public class IconManager {
     }
 
     public enum Icon {
-        CircleGray = 0,
+        None = -1,
+        CircleGray,
         CircleBlue,
         CircleTeal,
         CircleGreen,
@@ -54,6 +56,10 @@ public class IconManager {
         SetIcon( gObj, largeIcons[(int)icon].image as Texture2D );
     }
 
+    public static void RemoveIcon( GameObject gObj ) {
+        SetIcon( gObj, null );
+    }
+
     private static void SetIcon( GameObject gObj, Texture2D texture ) {
         var ty = typeof( EditorGUIUtility );
         var mi = ty.GetMethod( "SetIconForObject", BindingFlags.NonPublic | BindingFlags.Static );
@@ -83,10 +89,20 @@ public class IconManager {
 public static class IconManagerExtension {
 
     public static void SetIcon( this GameObject gObj, IconManager.LabelIcon icon ) {
-        IconManager.SetIcon( gObj, icon );
+        if ( icon == IconManager.LabelIcon.None )
+            IconManager.RemoveIcon( gObj );
+        else
+            IconManager.SetIcon( gObj, icon );
     }
 
     public static void SetIcon( this GameObject gObj, IconManager.Icon icon ) {
-        IconManager.SetIcon( gObj, icon );
+        if ( icon == IconManager.Icon.None )
+            IconManager.RemoveIcon( gObj );
+        else
+            IconManager.SetIcon( gObj, icon );
+    }
+
+    public static void RemoveIcon( this GameObject gObj ) {
+        IconManager.RemoveIcon( gObj );
     }
 }
