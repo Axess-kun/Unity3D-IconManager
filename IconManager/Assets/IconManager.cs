@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public class IconManager {
@@ -71,14 +73,16 @@ public class IconManager {
     }
 
     private static void Internal_SetIcon( GameObject gObj, Texture2D texture ) {
+#if UNITY_EDITOR
         var ty = typeof( EditorGUIUtility );
         var mi = ty.GetMethod( "SetIconForObject", BindingFlags.NonPublic | BindingFlags.Static );
         mi.Invoke( null, new object[] { gObj, texture } );
+#endif
     }
 
     private static GUIContent[] GetTextures( string baseName, string postFix, int startIndex, int count ) {
         GUIContent[] guiContentArray = new GUIContent[count];
-
+#if UNITY_EDITOR
 #if UNITY_5_3_OR_NEWER
         for ( int index = 0; index < count; index++ ) {
             guiContentArray[index] = EditorGUIUtility.IconContent( baseName + ( startIndex + index ) + postFix );
@@ -91,7 +95,7 @@ public class IconManager {
             guiContentArray[index] = mi.Invoke( null, new object[] { baseName + (object)( startIndex + index ) + postFix } ) as GUIContent;
         }
 #endif
-
+#endif
         return guiContentArray;
     }
 }
