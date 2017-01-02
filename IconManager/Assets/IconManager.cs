@@ -48,7 +48,7 @@ public class IconManager {
         if ( icon == LabelIcon.None )
             RemoveIcon( gObj );
         else
-            SetIcon( gObj, labelIcons[(int)icon].image as Texture2D );
+            Internal_SetIcon( gObj, labelIcons[(int)icon].image as Texture2D );
     }
 
     public static void SetIcon( GameObject gObj, Icon icon ) {
@@ -59,14 +59,18 @@ public class IconManager {
         if ( icon == Icon.None )
             RemoveIcon( gObj );
         else
-            SetIcon( gObj, largeIcons[(int)icon].image as Texture2D );
+            Internal_SetIcon( gObj, largeIcons[(int)icon].image as Texture2D );
+    }
+
+    public static void SetIcon( GameObject gObj, Texture2D texture ) {
+        Internal_SetIcon( gObj, texture );
     }
 
     public static void RemoveIcon( GameObject gObj ) {
-        SetIcon( gObj, null );
+        Internal_SetIcon( gObj, null );
     }
 
-    private static void SetIcon( GameObject gObj, Texture2D texture ) {
+    private static void Internal_SetIcon( GameObject gObj, Texture2D texture ) {
         var ty = typeof( EditorGUIUtility );
         var mi = ty.GetMethod( "SetIconForObject", BindingFlags.NonPublic | BindingFlags.Static );
         mi.Invoke( null, new object[] { gObj, texture } );
@@ -106,6 +110,10 @@ public static class IconManagerExtension {
             IconManager.RemoveIcon( gObj );
         else
             IconManager.SetIcon( gObj, icon );
+    }
+
+    public static void SetIcon( this GameObject gObj, Texture2D texture ) {
+        IconManager.SetIcon( gObj, texture );
     }
 
     public static void RemoveIcon( this GameObject gObj ) {
